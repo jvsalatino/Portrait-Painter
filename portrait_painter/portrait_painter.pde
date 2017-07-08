@@ -1,6 +1,6 @@
 import java.lang.*;
 import java.util.concurrent.*;
-
+//subido a Git Hub 08/07/2017
 
 private SobelEdgeDetection sobel;
 private PImage originalImage;
