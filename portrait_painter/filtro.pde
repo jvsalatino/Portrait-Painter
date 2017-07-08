@@ -16,7 +16,16 @@ class HSBFilter {
                       0.0    // red
                     };
     
-    
+    int hueInGreyScale = -1;
+    float[] hueValueGreyScale = {
+                               1.0, //black
+                               2.0, // 20% grey
+                               3.0, // 40% grey
+                               4.0, // 60% grey
+                               5.0, // 80% grey
+                               6.0 //  white
+                             };
+                             
     for(int i = 0; i < hueRanges.length; i ++){
       if(initialHSB.getHue() >= hueRanges[i][0] && initialHSB.getHue() < hueRanges[i][1]){
         hueInRange = hueValue[i];
@@ -56,10 +65,27 @@ class HSBFilter {
     if(brightnessInRange == -1){
       throw new IllegalStateException("Brightness cannot be calculated, review parameters");
     }
+    ////////////////////////////////////////
+    if(brightnessInRange == 0){
+       hueInRange = hueValueGreyScale[0]; 
+     } else if( brightnessInRange == 20 && saturationInRange == 0){
+       hueInRange = hueValueGreyScale[1]; 
+     } else if( brightnessInRange == 40 && saturationInRange == 0){
+       hueInRange = hueValueGreyScale[2];
+     } else if( brightnessInRange == 60 && saturationInRange == 0){
+       hueInRange = hueValueGreyScale[3];
+     } else if( brightnessInRange == 80 && saturationInRange == 0){
+       hueInRange = hueValueGreyScale[4];
+     } else if( brightnessInRange == 100 && saturationInRange == 0){
+       hueInRange = hueValueGreyScale[5];
+     }
     
+    
+    
+    ////////////////////////////////////////
     return new HueSaturationBrightness(hueInRange, saturationInRange, brightnessInRange);
   }
-  
+/*  
   public HueSaturationBrightness applyGreyscaleFilter(HueSaturationBrightness initialHSB) {
   
     int hueInGreyScale = -1;
@@ -87,7 +113,9 @@ class HSBFilter {
                              
     return new HueSaturationBrightness(hueInGreyScale, initialHSB.getSaturation(), initialHSB.getBrightness());
   } 
-  
+
+*/
+
   
   
   

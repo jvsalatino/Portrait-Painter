@@ -15,7 +15,12 @@ class SobelEdgeDetection {
                       175.0, //cyan 
                       235.0, // blue
                       300.0, // magenta 
-                      0.0    // red
+                      1.0,
+                      2.0,
+                      3.0,
+                      4.0,
+                      5.0,
+                      6.0
                     };
   
   
