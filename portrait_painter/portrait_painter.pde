@@ -4,14 +4,16 @@ import java.util.concurrent.*;
 
 private SobelEdgeDetection sobel;
 private PImage originalImage;
-private int scale = 1;
+private float scale = 2.0;
 private List<Stroke> strokes = new CopyOnWriteArrayList <Stroke>();
-public final int stroke = 4; // Line Stroke
+public final int stroke = int(5 / scale); // Line Stroke
+public float BLUR_PARAM = 1.8; // Blur to be applied 
 
 public void setup(){
   size(1000, 600);
   colorMode(HSB, 360, 100,100, 100); 
   originalImage = loadImage("face.jpg");
+  originalImage.filter( BLUR, BLUR_PARAM);
   strokeWeight(stroke);
   sobel = new SobelEdgeDetection(); 
 }

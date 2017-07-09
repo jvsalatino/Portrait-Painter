@@ -67,7 +67,8 @@ class HSBFilter {
     }
     ////////////////////////////////////////
     if(brightnessInRange == 0){
-       hueInRange = hueValueGreyScale[0]; 
+       hueInRange = hueValueGreyScale[0];
+       saturationInRange = 0;
      } else if( brightnessInRange == 20 && saturationInRange == 0){
        hueInRange = hueValueGreyScale[1]; 
      } else if( brightnessInRange == 40 && saturationInRange == 0){

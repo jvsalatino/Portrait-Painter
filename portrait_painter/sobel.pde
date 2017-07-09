@@ -15,12 +15,12 @@ class SobelEdgeDetection {
                       175.0, //cyan 
                       235.0, // blue
                       300.0, // magenta 
-                      1.0,
-                      2.0,
-                      3.0,
-                      4.0,
-                      5.0,
-                      6.0
+                      2.0, // gray 20%
+                      3.0, // gray 40%
+                      4.0, // gray 60%
+                      5.0, // gray 80%
+                      6.0,  // White
+                      1.0 // Black
                     };
   
   
@@ -28,9 +28,18 @@ class SobelEdgeDetection {
   
   public float factor = 3; // Line Segment Lenght Factor
   public int amountOfSegments = 3;
-  public int direction = 0; // Line Direction
-  public float BLUR_PARAM = 1.8; // Blur to be applied 
+ 
+  public int offset_x = int(1 * scale);
+  public int offset_y = int(1 * scale);
+  public int ventana_x = int(100 * scale); // posicion real en la imagen . Coordenada x del angulo superior izquierdo de la ventana
+  public int ventana_y = int(100 * scale);//posicion real en la imagen. Coordenada y del angulo superior izquierdo de la ventana
+ 
   
+  public int ancho = int( 100 * scale); // cantidad de pixels en x
+  public int alto = int( 100 * scale);// cantidad de pixels en y
+ 
+  public int direction = 0; // Line Direction
+   
   private HSBFilter hsbFilter; 
   
   public SobelEdgeDetection() {
@@ -101,8 +110,38 @@ class SobelEdgeDetection {
            //  println("\t \t > Calculating Gradients HUE: "+ HUE_BASE_LIST[hueIndex]);
               for (int saturation = 100; saturation >=0; saturation-=20) { 
              //   println("\t \t > Calculating Gradients Saturation: "+ saturation + "%");
-             for (int y = 0; y < originalImage.height; y+=grid) {
-                for (int x = 0; x < originalImage.width; x+=grid) {
+             //   for (int y = 0; y < originalImage.height; y+=grid) {
+               //    for (int x = 0; x < originalImage.width; x+=grid) {
+                     ////////////////////
+       // for(int y = 1; y < img.height-1; y+=grid)   // /// recorre todos los pixeles de la imagen por filas
+       int lim_inf_x = offset_x;
+       int lim_sup_x = int(offset_x + (210 * scale)); // 210 para portrait - 297 para landscape
+       if (lim_sup_x > originalImage.width)
+       {
+         lim_sup_x = originalImage.width;
+       }
+        int lim_inf_y = offset_y;    
+        int lim_sup_y = int(offset_y +(297*scale)); // 297 para portrait - 210 para landscape
+        
+       if (lim_sup_y > originalImage.height)
+       {
+         lim_sup_y = originalImage.height;
+       }
+       if(ventana_x != 0 && ventana_y != 0)
+       {
+        lim_inf_x = ventana_x;
+        lim_inf_y = ventana_y;
+        lim_sup_x = ventana_x + ancho;
+        lim_sup_y = ventana_y + alto;
+       }
+       
+      /////////////////////////////////////   
+             for (int y = lim_inf_y; y < lim_sup_y; y+=grid) {
+                   for (int x = lim_inf_x; x < lim_sup_x; x+=grid) {
+                  
+                  
+                  
+                  
                   calculateGradientForPixel(hueIndex, saturation, brightness, x, y, originalImage, rangesImage , strokes);
               }
           }
@@ -216,7 +255,7 @@ class SobelEdgeDetection {
               && copy+plusy >=0 && copx+plusx <= originalImage.width && copy+plusy <= originalImage.height  ) {          
               if (HUE_BASE_LIST[hue] == initialHue && abs(saturation-initialSaturation) <= 20 && abs(brightness-initialBrightness) <= 20) {
                 if(stroke != null){ //<>//
-                  stroke.addLine(new Line(copx/scale, copy/scale,(copx+plusx)/scale, (copy+plusy)/scale )); //<>//
+                  stroke.addLine(new Line(int(copx/scale), int(copy/scale),int((copx+plusx)/scale),int( (copy+plusy)/scale ))); //<>//
                 }
           }
         }
